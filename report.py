@@ -8,21 +8,23 @@ from openpyxl import Workbook
 def reports(user_id):
     filename = 'expenses.csv'
     categories = {}
+    try:
+        with open(filename, 'r') as file:
+            csv_reader = csv.reader(file)
 
-    with open(filename, 'r') as file:
-        csv_reader = csv.reader(file)
-
-        for row in csv_reader:
-            if len(row) >= 7 and row[2] == user_id:
-                category = row[3]
-                subcategory = row[4]
-                amount = float(row[5])
-                date = row[6]
+            for row in csv_reader:
+                if len(row) >= 7 and row[2] == user_id:
+                    category = row[3]
+                    subcategory = row[4]
+                    amount = float(row[5])
+                    date = row[6]
 
 
-                if category not in categories:
-                    categories[category] = []
-                categories[category].append((subcategory, amount, date))
+                    if category not in categories:
+                        categories[category] = []
+                        categories[category].append((subcategory, amount, date))
+    except FileNotFoundError:
+        print("File not found")
 
     # Create a new Excel workbook
     wb = Workbook()
