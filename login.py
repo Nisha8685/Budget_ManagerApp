@@ -22,7 +22,7 @@ def login(UserIDtxt, Passwordtxt,window):
         totalincome = (salary + business + online)
         budget = [user_id, salary, business, online, totalincome]
 
-        with open("income.csv", "w") as file:
+        with open("income.csv", "a",newline='') as file:
             csvwriter = csv.writer(file)
             csvwriter.writerow(budget)
 
