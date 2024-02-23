@@ -5,6 +5,8 @@ from tkinter import messagebox
 import csv
 from tkcalendar import Calendar
 
+import login
+from login import *
 def adddeleteedit(user_id,window):
 
     categories = {
@@ -45,7 +47,6 @@ def adddeleteedit(user_id,window):
         with open('expenses.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([firstname,lastname,user_id,category, subcategory, amount,date])
-
         # Display a message confirming that the expense has been added
         message_label.config(text=f"Expense added: {category} - {subcategory} - ${amount}")
 
@@ -56,39 +57,39 @@ def adddeleteedit(user_id,window):
     edit_window = tkinter.Toplevel(window)
     edit_window.title("Add/Delete or Edit your expences")
 
-    edit_frame=tkinter.Frame(edit_window)
+    edit_frame=tkinter.Frame(edit_window,background="lightblue")
     edit_frame.pack()
 
 
-    frame1 = tkinter.LabelFrame(edit_frame,text="Add Expanse",relief="raised")
-    frame1.pack(side="left")
+    frame1 = tkinter.LabelFrame(edit_frame,text="Add Expanse",relief="raised",background="lightblue",)
+    frame1.pack(side="left",fill=tkinter.Y)
 
-    frame2 = tkinter.LabelFrame(edit_frame,text="Edit Expense",relief="raised")
-    frame2.pack(side="left")
+    frame2 = tkinter.LabelFrame(edit_frame,text="Edit Expense",relief="raised",background="lightblue")
+    frame2.pack(side="left",fill=tkinter.Y)
 
-    frame3 = tkinter.LabelFrame(edit_frame,text="Delete Expense",relief="raised")
-    frame3.pack(side="left")
+    frame3 = tkinter.LabelFrame(edit_frame,text="Delete Expense",relief="raised",background="lightblue")
+    frame3.pack(side="left",fill=tkinter.Y)
 
     # Create and place widgets in the main window
-    category_label = ttk.Label(frame1, text="Category:")
-    category_label.pack()
+    category_label = ttk.Label(frame1, text="Category:",background="yellow")
+    category_label.grid(row=0,column=0,padx=10,pady=10)
 
     category_var = tkinter.StringVar()
     category_dropdown = ttk.Combobox(frame1, textvariable=category_var, values=list(categories.keys()), state="readonly")
-    category_dropdown.pack()
+    category_dropdown.grid(row=0,column=1,padx=10,pady=10)
 
-    subcategory_label = ttk.Label(frame1, text="Subcategory:")
-    subcategory_label.pack()
+    subcategory_label = ttk.Label(frame1, text="Subcategory:",background="yellow")
+    subcategory_label.grid(row=1,column=0,padx=10,pady=10)
 
     subcategory_var = tkinter.StringVar()
     subcategory_dropdown = ttk.Combobox(frame1, textvariable=subcategory_var, state="readonly")
-    subcategory_dropdown.pack()
+    subcategory_dropdown.grid(row=1,column=1,padx=10,pady=10)
 
-    amount_label = ttk.Label(frame1, text="Amount ($):")
-    amount_label.pack()
+    amount_label = ttk.Label(frame1, text="Amount ($):",background="yellow")
+    amount_label.grid(row=2,column=0,padx=10,pady=10)
 
     amount_entry = ttk.Entry(frame1)
-    amount_entry.pack()
+    amount_entry.grid(row=2,column=1,padx=10,pady=10)
 
 
     def select_date():
@@ -97,21 +98,24 @@ def adddeleteedit(user_id,window):
         date_entry.insert(0, selected_date)
 
     cal = Calendar(frame1, selectmode="day", date_pattern="dd/mm/yyyy")
-    cal.pack(padx=10,pady=10)
+    cal.grid(row=3,column=0,padx=50,pady=10,)
 
     setdate_button = ttk.Button(frame1, text="Set date", command=select_date)
-    setdate_button.pack()
+    setdate_button.grid(row=4,column=0,padx=10,pady=10)
     date_entry = ttk.Entry(frame1)
-    date_entry.pack()
+    date_entry.grid(row=5,column=0,padx=10,pady=10)
 
 
 
 
     add_button = ttk.Button(frame1, text="Add Expense", command=add_expense)
-    add_button.pack()
+    add_button.grid(row=6,column=0,padx=10,pady=10)
 
     message_label = ttk.Label(frame1, text="")
-    message_label.pack(side="bottom")
+    message_label.grid(row=7,column=0,padx=10,pady=10)
+
+
+
 
     def update_subcategories(event):
         selected_category = category_var.get()
@@ -165,7 +169,7 @@ def adddeleteedit(user_id,window):
             message1_label.config(text="Category or subcategory not found")
 
         newamounttxt.delete(0, tkinter.END)
-    category2_label = ttk.Label(frame2, text="Category:")
+    category2_label = ttk.Label(frame2, text="Category:",background="yellow")
     category2_label.grid(row=0,column=0,padx=10,pady=10)
 
     category2_var = tkinter.StringVar()
@@ -173,7 +177,7 @@ def adddeleteedit(user_id,window):
                                      state="readonly")
     category2_dropdown.grid(row=0,column=1,padx=10,pady=10)
 
-    subcategory2_label = ttk.Label(frame2, text="Subcategory:")
+    subcategory2_label = ttk.Label(frame2, text="Subcategory:",background="yellow")
     subcategory2_label.grid(row=1,column=0,padx=10,pady=10)
 
     subcategory2_var = tkinter.StringVar()
@@ -192,7 +196,7 @@ def adddeleteedit(user_id,window):
     show_button = ttk.Button(frame2, text="Show current amount", command=show_amount)
     show_button.grid(row=2,column=0,padx=10,pady=10)
 
-    newamountlabel = tkinter.Label(frame2, text="Enter new amount:", bg='Blue',
+    newamountlabel = tkinter.Label(frame2, text="Enter new amount:", bg='yellow',
                             fg='black')  # Set label background and foreground color
     newamountlabel.grid(row=3,column=0,padx=10,pady=10)
 
@@ -236,7 +240,7 @@ def adddeleteedit(user_id,window):
                     if row[2]== user_id:
                         if row[3] == category3 and row[4] == subcategory3:
                             status = True
-                            for i in range(0,6):
+                            for i in range(0,7):
                                 row[i] =''
 
 
@@ -251,7 +255,7 @@ def adddeleteedit(user_id,window):
             message1_label.config(text="Category or subcategory not found")
 
 
-    category3_label = ttk.Label(frame3, text="Category:")
+    category3_label = ttk.Label(frame3, text="Category:",background="yellow")
     category3_label.grid(row=0, column=0, padx=10, pady=10)
 
     category3_var = tkinter.StringVar()
@@ -259,7 +263,7 @@ def adddeleteedit(user_id,window):
                                       state="readonly")
     category3_dropdown.grid(row=0, column=1, padx=10, pady=10)
 
-    subcategory3_label = ttk.Label(frame3, text="Subcategory:")
+    subcategory3_label = ttk.Label(frame3, text="Subcategory:",background="yellow")
     subcategory3_label.grid(row=1, column=0, padx=10, pady=10)
 
     subcategory3_var = tkinter.StringVar()

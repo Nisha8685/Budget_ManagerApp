@@ -6,6 +6,7 @@ from login import *
 
 
 def save(firstnametxt,lastnametxt,user_idtxt,passwordtxt,confirmpasswordtxt,securityquestioncombo,securityanswertxt,window):
+
     fname=firstnametxt.get()
     lname=lastnametxt.get()
     user_id=user_idtxt.get()
@@ -13,7 +14,12 @@ def save(firstnametxt,lastnametxt,user_idtxt,passwordtxt,confirmpasswordtxt,secu
     confirmpassword=confirmpasswordtxt.get()
     securityquestion=securityquestioncombo.get()
     securityanswer=securityanswertxt.get()
-    if password!=confirmpassword:
+
+
+
+    if fname==''or lname=='' or user_id==''or password=='' or confirmpassword=='' or securityquestion=='' or securityanswer=='':
+        tkinter.messagebox.showerror("Error", message="All fields are mandatory")
+    elif password!=confirmpassword:
         tkinter.messagebox.showerror("Error",message="Password doesn't match")
     else:
         with open("UserIDinfo.csv","a") as filewriter:
@@ -22,4 +28,3 @@ def save(firstnametxt,lastnametxt,user_idtxt,passwordtxt,confirmpasswordtxt,secu
             tkinter.messagebox.showinfo("Saving information", message="Saved")
 
 
-    login(user_idtxt,passwordtxt,window)

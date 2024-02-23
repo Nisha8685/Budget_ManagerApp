@@ -11,9 +11,11 @@ from save import *
 from signup import signup
 from login import *
 
-
+def log():
+    window.deiconify()
 
 def FPassword(event):
+    window.withdraw()
     global recoverpassword
     def recover():
 
@@ -34,7 +36,7 @@ def FPassword(event):
     forgotpassword_window = tkinter.Toplevel(window)
     forgotpassword_window.title("Forgot Password")
 
-    frame2 = tkinter.Frame(forgotpassword_window)
+    frame2 = tkinter.Frame(forgotpassword_window,background="lightblue")
     frame2.pack()
 
     IDlabel = tkinter.Label(frame2, text="Enter your User ID:", bg='Blue',
@@ -62,49 +64,81 @@ def FPassword(event):
     message_label = ttk.Label(frame2, text="")
     message_label.grid(row=4, column=0, padx=10, pady=10)
 
+    logbutton = tkinter.Button(frame2, text="Go to login page", command=log, bg='Blue', fg='black')
+    logbutton.grid(row=5, column=0, padx=10, pady=10)
+
 
 
 window = tkinter.Tk()
 window.title("Budget Manager")
 
-# Set background image
-# bg_image = tkinter.PhotoImage(file="background_image.png")
-# bg_label = tkinter.Label(window, image=bg_image)
-# bg_label.place(relwidth=1, relheight=1)
 
 
-frame = tkinter.Frame(window)
-frame.pack()
+bg_image = tkinter.PhotoImage(file="general-budget.png")
 
-logininfoframe = tkinter.LabelFrame(frame, text="Login Page", bg='Pink',width=5000,height=1000)  # Set frame background color
-logininfoframe.grid(row=0, column=0, sticky="news",padx=10,pady=10)
+image_width = bg_image.width()
+image_height = bg_image.height()
 
-UserIDlabel = tkinter.Label(logininfoframe, text="User ID:", bg='Blue', fg='black')  # Set label background and foreground color
-UserIDlabel.grid(row=0, column=0, padx=10, pady=10)
+bg_label = tkinter.Label(window, image=bg_image)
+bg_label.place(x=0,y=0,relheight=1,relwidth=1)  # Fill the entire window
 
-UserIDtxt = tkinter.Entry(logininfoframe, bg='white')  # Set entry background color
-UserIDtxt.grid(row=0, column=1, padx=10, pady=10)
-
-Passwordlabel = tkinter.Label(logininfoframe, text="Password:", bg='Blue', fg='black')  # Set label background and foreground color
-Passwordlabel.grid(row=1, column=0, padx=10, pady=10)
-
-Passwordtxt = tkinter.Entry(logininfoframe, bg='white')  # Set entry background color
-Passwordtxt.grid(row=1, column=1, padx=10, pady=10)
+window.geometry(f"{image_width}x{image_height}")
 
 
-loginbutton=tkinter.Button(window,text="Login",command=lambda :login(UserIDtxt,Passwordtxt,window),bg='Blue', fg='black')
-loginbutton.pack()
 
-signupbutton=tkinter.Button(window,text="Sign UP",command=lambda :signup(window),bg='Blue', fg='black')
-# signupbutton.grid(row=1,column=1,padx=10,pady=10)
+style = ttk.Style()
+style.configure("Background.TLabelframe", background="lightblue")
+
+# Create a main frame to hold other frames
+main_frame = ttk.Frame(window,style="Background.TLabelframe")
+main_frame.pack()
+
+
+
+# Create a frame for login information
+logininfoframe = ttk.LabelFrame(main_frame, text="Login Page", padding=20,style="Background.TLabelframe")
+logininfoframe.pack()
+
+
+
+
+
+
+
+# Styling for labels and entry fields
+label_style = {"background": "blue", "foreground": "white", "font": ("Arial", 12)}
+entry_style = {"background": "white", "foreground": "black","font": ("Arial", 12)}
+
+
+# UserID Label and Entry
+UserIDlabel = ttk.Label(logininfoframe, text="User ID:", **label_style)
+UserIDlabel.grid(row=0, column=0, sticky="w",padx=25,pady=25)
+UserIDtxt = ttk.Entry(logininfoframe, **entry_style)
+UserIDtxt.grid(row=0, column=1)
+
+# Password Label and Entry
+Passwordlabel = ttk.Label(logininfoframe, text="Password:", **label_style)
+Passwordlabel.grid(row=1, column=0, sticky="w")
+Passwordtxt = ttk.Entry(logininfoframe, show="*", **entry_style)
+Passwordtxt.grid(row=1, column=1)
+
+# Login Button
+loginbutton = ttk.Button(main_frame, text="Login",command=lambda: login(UserIDtxt, Passwordtxt, window))
+loginbutton.pack(pady=20)
+
+# Sign Up Button
+signupbutton = ttk.Button(main_frame, text="Sign Up", command=lambda: signup(window))
 signupbutton.pack()
 
+# Forgot Password Label
+forgotpassword = tkinter.Label(main_frame, text="Forgot Password? Click Here", fg="blue", cursor="hand2")
+forgotpassword.pack(pady=10)
 
-forgotpassword = tkinter.Label(window, text="Forgot Passwork?Click Here", fg="blue", cursor="hand2")
-forgotpassword.pack()
-# Bind the label to the open_link function
-forgotpassword.bind("<Button-1>",FPassword)
-value_label = tkinter.Label(window, text="", font=("Arial", 12))
+# Bind the label to the FPassword function
+forgotpassword.bind("<Button-1>", FPassword)
+
+# Placeholder value label
+value_label = ttk.Label(main_frame, text="", font=("Arial", 12))
 value_label.pack()
 
 window.mainloop()
