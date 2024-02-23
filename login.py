@@ -104,7 +104,7 @@ def login(UserIDtxt, Passwordtxt,window):
             reportbutton = tkinter.Button(Account_frame, text="Reports",font=40, command=lambda :reports(user_id), bg='lightblue',
                                           fg='black',width=1000)
             reportbutton.pack(fill=tkinter.Y,expand=True)
-            statisticbutton = tkinter.Button(Account_frame, text="Statistics",font=40, command=statistics, bg="lightblue",
+            statisticbutton = tkinter.Button(Account_frame, text="Statistics",font=40, command=lambda :statistics(user_id), bg="lightblue",
                                              fg="Black",width=1000)
             statisticbutton.pack(fill=tkinter.Y,expand=True)
 
@@ -145,13 +145,7 @@ def login(UserIDtxt, Passwordtxt,window):
                 totalexpencesvaluelabel = ttk.Label(summery_frame, text=totalexpence)
                 totalexpencesvaluelabel.grid(row=7, column=1, padx=10, pady=10)
 
-            if totalexpence > totalincome:
-                messagebox.showwarning("Alert Message", message="You have exceeded the set budget.")
-            elif totalexpence < totalincome:
-                messagebox.showwarning("Alert Message", message="You are all good in budget")
-            else:
-                messagebox.showwarning("Alert Message",
-                                       message="Your expences are same as your set budget.")
+
 
 
 
